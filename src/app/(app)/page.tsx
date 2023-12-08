@@ -1,3 +1,5 @@
+import DataTable from "@/components/common/data-table";
+
 export default function Home() {
   return (
     <div className="h-full p-4">
@@ -26,9 +28,13 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 mt-4">
-        <div className="border p-4"></div>
-        <div className="border p-4"></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="border p-4">
+          <DataTable />
+        </div>
+        <div className="border p-4">
+          <DataTable />
+        </div>
       </div>
     </div>
   );
