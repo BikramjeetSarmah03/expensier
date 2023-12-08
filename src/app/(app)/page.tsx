@@ -1,6 +1,15 @@
+import AddButton from "@/components/add-button";
 import DataTable from "@/components/common/data-table";
+import { initialProfile } from "@/lib/initial-profile";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const profile = await initialProfile();
+
+  if (!profile) {
+    redirect("/sign-in");
+  }
+
   return (
     <div className="h-full p-4">
       <div className="grid grid-cols-3 gap-4">
@@ -28,14 +37,18 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-4">
         <div className="border p-4">
+          <h1 className="font-serif underline text-lg">Expenses</h1>
           <DataTable />
         </div>
         <div className="border p-4">
+          <h1 className="font-serif underline text-lg">Gains</h1>
           <DataTable />
         </div>
       </div>
+
+      <AddButton />
     </div>
   );
 }

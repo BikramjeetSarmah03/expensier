@@ -10,22 +10,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Expense {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  userId String
-
-  title       String
-  description String?
-  amount      Int
-
-  date      DateTime @default(now())
-  updatedAt DateTime @updatedAt()
-
-  @@map("expenses")
+enum Type {
+  EXPENSE
+  GAIN
 }
 
-model Gains {
+model Profile {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId   String @unique
+  name     String
+  imageUrl String
+  email    String
+
+  transactions Transactions[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+model Transactions {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   userId String
@@ -33,9 +39,13 @@ model Gains {
   title       String
   description String?
   amount      Int
+  type        Type
+
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?  @db.ObjectId
 
   date      DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
-  @@map("gains")
+  @@map("transactions")
 }
